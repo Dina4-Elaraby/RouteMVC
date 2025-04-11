@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Demo.DAL.Data.Configrations
 {
-    internal class DepartmentConfigration:IEntity
+    internal class DepartmentConfigration:
     {
     }
 }

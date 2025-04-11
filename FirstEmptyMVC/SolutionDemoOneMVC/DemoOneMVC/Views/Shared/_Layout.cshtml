@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header>
+        <center>
+            <nav class="m-5">
+                <a href="/Home/Index" class="btn btn-primary m-2">Home</a>
+                <a href="/Home/Privacy" class="btn btn-warning m-2">Privacy</a>
+                <a href="/Home/AboutUs" class="btn btn-success m-2">About Us</a>
+                <a href="/Home/ContentUs" class="btn btn-secondary m-2">Content Us</a>
+                <a href="/Account/SignIn" class="btn btn-info m-2">Sign In</a> @* /Account/SignIn => controller/action *@
+                <a href="/Account/Register" class="btn btn-danger m-2">Register</a>
+            </nav>
+        </center>
+    </header>
+    <div>
+        @RenderBody()
+    </div>
+    <footer>
+        <center>
+            <div class=" m-2">
+                @* m-5 => to not near body and footer *@
+                <p>CopyRights &copy; Route @DateTime.Now.Year</p>
+            </div>
+        </center>
+    </footer>
+</body>
+</html>
