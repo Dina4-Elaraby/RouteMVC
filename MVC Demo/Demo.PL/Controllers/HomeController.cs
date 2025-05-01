@@ -1,8 +1,8 @@
 using System.Diagnostics;
-using Demo.PL.Models;
+using Demo.Presentation.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Demo.PL.Controllers
+namespace Demo.Presentation.Controllers
 {
     public class HomeController : Controller
     {
