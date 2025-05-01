@@ -1,6 +1,9 @@
 ﻿namespace Demo.DataAccess.Data.Configrations
 {
+
     internal class DepartmentConfigration : IEntityTypeConfiguration<Department>
+
+    
     {
         public void Configure(EntityTypeBuilder<Department> builder)
         {
