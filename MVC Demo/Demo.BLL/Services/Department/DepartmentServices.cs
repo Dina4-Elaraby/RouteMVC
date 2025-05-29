@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Demo.BusinessLogic.DataTransferObjects;
+using Demo.BusinessLogic.DataTransferObjects.Department;
 using Demo.BusinessLogic.Factories;
 using Demo.DataAccess.Models;
-using Demo.DataAccess.Repositories;
+using Demo.DataAccess.Repositories.DepartmentRepo;
 
 
 
-namespace Demo.BusinessLogic.Services
+namespace Demo.BusinessLogic.Services.Department
 {
     public class DepartmentServices(IDepartmentRepo _departmentRepo) : IDepartmentServices
     // injection , primary const
@@ -24,7 +24,7 @@ namespace Demo.BusinessLogic.Services
 
 
         #region Get All Departments
-        public IEnumerable<DepartmentDTO> GetAllDepts()
+        public IEnumerable<DepartmentsDTO> GetAllDepts()
         {
             var depts = _departmentRepo.GetAll(); // return IEnumerable<department> exist in db
 
@@ -48,7 +48,7 @@ namespace Demo.BusinessLogic.Services
         #endregion
 
         #region Get Departments By Id
-        public DepartmentsDetailsDTO? GetDepartmentsById(int id)
+        public DepartmentDetailsDTO? GetDepartmentsById(int id)
         {
             var depts = _departmentRepo.GetById(id); //return department,bur i wanna return departmentdetailsdto
 
@@ -100,7 +100,7 @@ namespace Demo.BusinessLogic.Services
         #endregion
 
         #region Update Department
-        public int UpdateDepartment(UpdateDepartmentDTO updeptdto)
+        public int UpdateDepartment(UpdatedDepartmentDTO updeptdto)
         {
             //var dept = updeptdto.ToEntity(); //varible of Department object 
             //return _departmentRepo.Update(dept);

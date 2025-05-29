@@ -1,8 +1,8 @@
 ﻿using Demo.DataAccess.Models;
 
-namespace Demo.BusinessLogic.DataTransferObjects
+namespace Demo.BusinessLogic.DataTransferObjects.Department
 {
-  public class DepartmentsDetailsDTO
+    public class DepartmentDetailsDTO
     {
         #region Constructor Mapping
         //public DepartmentsDetailsDTO(Department dept)

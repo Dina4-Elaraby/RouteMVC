@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Demo.BusinessLogic.DataTransferObjects
+namespace Demo.BusinessLogic.DataTransferObjects.Department
 {
-    public class UpdateDepartmentDTO
+    public class UpdatedDepartmentDTO
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
