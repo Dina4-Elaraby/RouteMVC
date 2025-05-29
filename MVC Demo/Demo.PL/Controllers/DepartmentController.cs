@@ -1,8 +1,9 @@
 ﻿using Demo.BusinessLogic.DataTransferObjects;
-using Demo.BusinessLogic.Services;
+using Demo.BusinessLogic.DataTransferObjects.Department;
+using Demo.BusinessLogic.Services.Department;
 using Demo.Presentation.ViewModels.Department;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+
 
 namespace Demo.Presentation.Controllers
 {
@@ -76,6 +77,7 @@ namespace Demo.Presentation.Controllers
         }
         #endregion
 
+        #region Edit
         [HttpGet]
         public IActionResult Edit(int? id)
         {
@@ -96,15 +98,15 @@ namespace Demo.Presentation.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit([FromRoute]int id,DepartementEditViewModel deptEditViewModel)
+        public IActionResult Edit([FromRoute] int id, DepartementEditViewModel deptEditViewModel)
         {
             //check first from modelstate of deptEditViewModel
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 //Manual Mapping from DepartementEditViewModel to Updatedepartemntdto
                 try
                 {
-                    var updateDepartmentDto = new UpdateDepartmentDTO()
+                    var updateDepartmentDto = new UpdatedDepartmentDTO()
                     {
                         Id = id,
                         Code = deptEditViewModel.Code,
@@ -123,10 +125,10 @@ namespace Demo.Presentation.Controllers
                     }
 
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     //in development
-                    if(_env.IsDevelopment())
+                    if (_env.IsDevelopment())
                     {
                         ModelState.AddModelError(string.Empty, ex.Message);
                     }
@@ -145,6 +147,9 @@ namespace Demo.Presentation.Controllers
             #endregion
         }
 
+        #endregion
+
+        #region Delete
         //[HttpGet]
         //public IActionResult Delete(int?id)
         //{
@@ -166,7 +171,7 @@ namespace Demo.Presentation.Controllers
                 else
                     ModelState.AddModelError(string.Empty, "Department is not deleted");
 
-                return RedirectToAction(nameof(Delete), new {id= id});// RedirectToAction go to method get
+                return RedirectToAction(nameof(Delete), new { id = id });// RedirectToAction go to method get
             }
             catch (Exception ex)
             {
@@ -181,12 +186,13 @@ namespace Demo.Presentation.Controllers
                     _logger.LogError(ex.Message);
                     return View("ErrorView", ex);
                 }
-                   
 
 
-               
+
+
             }
-        }
+        } 
+        #endregion
     }
 
 }

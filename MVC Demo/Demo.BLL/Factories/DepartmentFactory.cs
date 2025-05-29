@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Demo.BusinessLogic.DataTransferObjects;
-using Demo.DataAccess.Models;
+using Demo.BusinessLogic.DataTransferObjects.Department;
+using Demo.DataAccess.Models.DepartmentModel;
 
 namespace Demo.BusinessLogic.Factories
 {
     static class DepartmentFactory
     {
         #region ToDepartmentDetailsDTO
-        public static DepartmentsDetailsDTO ToDepartmentDetailsDTO(this Department dept)
+        public static DepartmentDetailsDTO ToDepartmentDetailsDTO(this Department dept)
         {
             // this => mean object of class department call the function(DepartmentsDetailsDTO)
-            return new DepartmentsDetailsDTO()
+            return new DepartmentDetailsDTO()
             {
                 Id = dept.Id,
                 Name = dept.Name,
@@ -28,9 +28,9 @@ namespace Demo.BusinessLogic.Factories
         #endregion
 
         #region ToDepartmentDTO
-        public static DepartmentDTO ToDepartmentDTO(this Department dept)
+        public static DepartmentsDTO ToDepartmentDTO(this Department dept)
         {
-            return new DepartmentDTO()
+            return new DepartmentsDTO()
             {
                 DeptId = dept.Id,
                 Name = dept.Name,
@@ -57,7 +57,7 @@ namespace Demo.BusinessLogic.Factories
         #endregion
 
         #region ToDepartment(Update)
-       public static Department ToEntity(this UpdateDepartmentDTO updeptdto)
+       public static Department ToEntity(this UpdatedDepartmentDTO updeptdto)
         {
             return new Department()
             {

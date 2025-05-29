@@ -1,7 +1,10 @@
 using Demo.DataAccess.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
-using Demo.DataAccess.Repositories;
-using Demo.BusinessLogic.Services;
+using Demo.DataAccess.Repositories.DepartmentRepo;
+using Demo.BusinessLogic.Services.Department;
+using Demo.DataAccess.Repositories.EmployeeRepo;
+using Demo.BusinessLogic.Profiles;
+using Demo.BusinessLogic.Services.EmployeeServices;
 namespace Demo.Presentation
 {
     public class Program
@@ -24,8 +27,11 @@ namespace Demo.Presentation
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConntection"));
             });
             builder.Services.AddScoped<IDepartmentRepo, DepartmentRepo>();
+            builder.Services.AddScoped<IEmployeeRepo, EmployeeRepo>();
             // if someone demand IDepartmentServices inject or give him object of DepartmentServices
             builder.Services.AddScoped<IDepartmentServices, DepartmentServices>();
+            builder.Services.AddScoped<IEmployeeServices, EmployeeServices>();
+            builder.Services.AddAutoMapper(m => m.AddProfile(new EmployeeProfile()));
             #endregion
             var app = builder.Build();
 
