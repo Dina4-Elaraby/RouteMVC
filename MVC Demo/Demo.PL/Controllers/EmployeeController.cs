@@ -3,8 +3,7 @@ using Demo.BusinessLogic.Services.EmployeeServices;
 using Demo.DataAccess.Models.CommonModel;
 using Demo.DataAccess.Models.EmployeeModel;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using Demo.Presentation.ViewModels.Employee;
 
 namespace Demo.Presentation.Controllers
 {
@@ -22,13 +21,26 @@ namespace Demo.Presentation.Controllers
         public IActionResult Create() => View();
 
         [HttpPost]
-        public IActionResult Create(CreatedEmployeeDTO createdEmployeeDTO)
+        public IActionResult Create(EmployeeViewModel employeeViewModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    int result = _employeeServices.CreatedEmployee(createdEmployeeDTO);
+                    var emp = new CreatedEmployeeDTO()
+                    {
+                        Name = employeeViewModel.Name,
+                        Age = employeeViewModel.Age,
+                        Email = employeeViewModel.Email,
+                        Address = employeeViewModel.Address,
+                        Salary = employeeViewModel.Salary,
+                        IsActive = employeeViewModel.IsActive,
+                        HiringDate = DateOnly.FromDateTime(employeeViewModel.HiringDate),
+                        PhoneNumber = employeeViewModel.PhoneNumber,
+                        Gender = employeeViewModel.Gender,
+                        EmployeeType = employeeViewModel.EmployeeType
+                    };
+                    int result = _employeeServices.CreatedEmployee(emp);
                     if (result > 0)
                         return RedirectToAction(nameof(Index));
                     else
@@ -43,7 +55,7 @@ namespace Demo.Presentation.Controllers
                         _logger.LogError(ex.Message);
                 }
             }
-            return View(createdEmployeeDTO);
+            return View(employeeViewModel);
         }
 
         #endregion
@@ -85,22 +97,36 @@ namespace Demo.Presentation.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(int? id, UpdatedEmployeeDTO updatedEmployeeDTO)
+        public IActionResult Edit(int? id,EmployeeViewModel employeeViewModel)
         {
-            if (!id.HasValue || id != updatedEmployeeDTO.Id) return BadRequest();
+            if (!id.HasValue || id != employeeViewModel.Id) return BadRequest();
 
-            if (!ModelState.IsValid) return View(updatedEmployeeDTO); // return view with same data u enter it 
+            if (!ModelState.IsValid) return View(employeeViewModel); // return view with same data u enter it 
             {
                 // try to make update
                 try
                 {
-                    var result = _employeeServices.UpdatedEmployee(updatedEmployeeDTO);
+                    var emp = new UpdatedEmployeeDTO()
+                    {
+                        Id = employeeViewModel.Id,
+                        Name = employeeViewModel.Name,
+                        Age = employeeViewModel.Age,
+                        Email = employeeViewModel.Email,
+                        Address = employeeViewModel.Address,
+                        Salary = employeeViewModel.Salary,
+                        IsActive = employeeViewModel.IsActive,
+                        HiringDate = DateOnly.FromDateTime(employeeViewModel.HiringDate),
+                        PhoneNumber = employeeViewModel.PhoneNumber,
+                        Gender = employeeViewModel.Gender,
+                        EmployeeType = employeeViewModel.EmployeeType
+                    };
+                    var result = _employeeServices.UpdatedEmployee(emp);
                     if (result > 0)
                         return RedirectToAction(nameof(Index));
                     else
                     {  //show message error if employee not updated
                         ModelState.AddModelError(string.Empty, "Employee date is not updated");
-                        return View(updatedEmployeeDTO);
+                        return View(employeeViewModel);
                     }
                 }
                 catch (Exception ex)
@@ -108,7 +134,7 @@ namespace Demo.Presentation.Controllers
                     if (_env.IsDevelopment())
                     {
                         ModelState.AddModelError(string.Empty, ex.Message);
-                        return View(updatedEmployeeDTO);
+                        return View(employeeViewModel);
                     }
                     else
                     {

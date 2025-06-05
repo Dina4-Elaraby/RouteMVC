@@ -36,16 +36,9 @@
                     <td>@emp.Gender</td>
                     <td><i class="fa @(emp.IsActive ?"fa-solid fa-circle-check text-success":"fa-times-circle text-danger")"></i> </td>
                     <td>@emp.EmployeeType</td>
-                    <td>
-                        <a class="btn btn-primary" asp-action="Details" asp-route-Id="@emp.Id">
-                            <i class="fas fa-eye"></i>Details
-                        </a>
-                    </td>
-                    <td>
-                        <a class="btn btn-success" asp-action="Edit" asp-route-Id="@emp.Id">
-                            <i class="fas fa-edit"></i>Edit
-                        </a>    
-                    </td>
+
+                    <partial name="_ButtonPartialView" model="emp.Id"/>
+
                     <td>
                         @* <a class="btn btn-danger" asp-action="Delete" asp-route-Id="@dept.DeptId"> <i class="fas fa-trash"></i> Delete</a> *@
 

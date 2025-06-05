@@ -28,6 +28,8 @@ namespace Demo.BusinessLogic.Profiles
 
             CreateMap<UpdatedEmployeeDTO, Employee>()
                 .ForMember(dest => dest.HiringDate, options => options.MapFrom(src => src.HiringDate.ToDateTime(TimeOnly.MinValue)));
+
+            
         }
     }
 }

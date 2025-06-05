@@ -1,9 +1,7 @@
-﻿using Demo.BusinessLogic.DataTransferObjects;
-using Demo.BusinessLogic.DataTransferObjects.Department;
+﻿using Demo.BusinessLogic.DataTransferObjects.Department;
 using Demo.BusinessLogic.Services.Department;
 using Demo.Presentation.ViewModels.Department;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace Demo.Presentation.Controllers
 {
@@ -18,6 +16,11 @@ namespace Demo.Presentation.Controllers
         //develop against that interface 
         public IActionResult Index()
         {
+            //ViewData["message"] = "HI from viewdata";
+            //ViewBag.message = "HI from viewbag";
+
+            ViewData["message"] = new DepartmentsDTO() { Name = "From ViewData" };
+            ViewBag.messagee = new DepartmentsDTO() { Name = "From ViewBag" };
             var dept = _departmentServices.GetAllDepts();
             return View(dept);
         }
@@ -27,21 +30,38 @@ namespace Demo.Presentation.Controllers
         public IActionResult Create() => View();//fat arrow
 
         [HttpPost]
-        public IActionResult Create(CreatedDepartmentDTO cdeptdto)
+       // [ValidateAntiForgeryToken]
+        public IActionResult Create(DepartementViewModel departmentViewModel)
         {     //Server Side Validation on validation on attributes in CreatedDepartmentDTO
 
             if (ModelState.IsValid)
             {
+               
                 try
                 {
-                    int result = _departmentServices.AddNewDepartment(cdeptdto);//=> return n rows is affected
-                    if (result > 0)
-                        return RedirectToAction(nameof(Index));
-                    // if create new department go to action index which show all depts
-                    else
+                    var deptDto = new CreatedDepartmentDTO
                     {
-                        ModelState.AddModelError(string.Empty, "Department cannot created now ");
-                    }
+                        Name = departmentViewModel.Name,
+                        Code = departmentViewModel.Code,
+                        Description = departmentViewModel.Description,
+                        DateOfCreation = departmentViewModel.DateOfCreation
+                    };
+                    int result = _departmentServices.AddNewDepartment(deptDto);//=> return n rows is affected
+                    string message;
+                    if (result > 0)
+                        message = $"Department {deptDto.Name} is created Successfully";
+                    else
+                        message = $"Department cannot created";
+
+                    TempData["Message"] = message;
+                    return RedirectToAction(nameof(Index));
+
+                    //    return RedirectToAction(nameof(Index));
+                    //// if create new department go to action index which show all depts
+                    //else
+                    //{
+                    //    ModelState.AddModelError(string.Empty, "Department cannot created now ");
+                    //}
                 }
                 catch (Exception ex)
                 {
@@ -60,7 +80,7 @@ namespace Demo.Presentation.Controllers
                 }
             }
             //default return for each if,else
-            return View(cdeptdto);
+            return View(departmentViewModel);
 
         }
         #endregion
@@ -87,7 +107,7 @@ namespace Demo.Presentation.Controllers
             //if departemnt is not found as id not exist in Database like i have ids 1,2,...,10 and i send id 12 so that dept is null
             if (dept is null) return NotFound();
             //Manual Mapping from DepartmentDetailsDTO To DepartmentEditViewModel
-            var deptViewModel = new DepartementEditViewModel()
+            var deptViewModel = new DepartementViewModel()
             {
                 Code = dept.Code,
                 Name = dept.Name,
@@ -98,7 +118,7 @@ namespace Demo.Presentation.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit([FromRoute] int id, DepartementEditViewModel deptEditViewModel)
+        public IActionResult Edit([FromRoute] int id, DepartementViewModel deptEditViewModel)
         {
             //check first from modelstate of deptEditViewModel
             if (ModelState.IsValid)

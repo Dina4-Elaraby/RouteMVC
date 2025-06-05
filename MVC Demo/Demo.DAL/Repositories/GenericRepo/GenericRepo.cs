@@ -1,11 +1,6 @@
 ﻿using Demo.DataAccess.Data.Contexts;
 using Demo.DataAccess.Models.CommonModel;
-using Demo.DataAccess.Models.DepartmentModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace Demo.DataAccess.Repositories.GenericRepo
 {
@@ -48,6 +43,28 @@ namespace Demo.DataAccess.Repositories.GenericRepo
             _dbContext.Set<Entity>().Add(entity);
             return _dbContext.SaveChanges();
         }
+
+
         #endregion
+
+        public IEnumerable<Entity> GetIEnumerable()
+        {
+            return _dbContext.Set<Entity>();
+        }
+
+        public IQueryable<Entity> GetIQueryable()
+        {
+            //return set<entity> as IQueryable inherit from IEnumerable so no error occur
+            return _dbContext.Set<Entity>();
+        }
+
+        public IEnumerable<TResult> GetAll<TResult>(Expression<Func<Entity, TResult>> selector)
+        {
+            return _dbContext.Set<Entity>()
+                 .Where(e => e.IsDeleted != true)
+                 .Select(selector).ToList();
+            //return ienumerable not to allow to extend any thing 
+
+        }
     }
 }

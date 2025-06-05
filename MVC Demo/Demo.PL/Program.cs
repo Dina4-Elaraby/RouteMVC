@@ -5,6 +5,7 @@ using Demo.BusinessLogic.Services.Department;
 using Demo.DataAccess.Repositories.EmployeeRepo;
 using Demo.BusinessLogic.Profiles;
 using Demo.BusinessLogic.Services.EmployeeServices;
+using Microsoft.AspNetCore.Mvc;
 namespace Demo.Presentation
 {
     public class Program
@@ -14,7 +15,11 @@ namespace Demo.Presentation
             var builder = WebApplication.CreateBuilder(args);
 
             #region  Add services to the container.(IservicesCollection)
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews(options =>
+            {
+                //options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+
+            });
             //builder.Services.AddScoped<AppDbContext>();//2. add services to container
             builder.Services.AddDbContext<AppDbContext>
             (options =>

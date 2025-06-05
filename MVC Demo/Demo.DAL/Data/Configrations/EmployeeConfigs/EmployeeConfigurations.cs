@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Demo.DataAccess.Data.Configrations.BaseEntityConfigs;
+﻿using Demo.DataAccess.Data.Configrations.BaseEntityConfigs;
 using Demo.DataAccess.Models.CommonModel;
-using Demo.DataAccess.Models.DepartmentModel;
 using Demo.DataAccess.Models.EmployeeModel;
 
 namespace Demo.DataAccess.Data.Configrations.EmployeeConfigs
 {
     public class EmployeeConfigurations : BaseEntityConfigurations<Employee>,IEntityTypeConfiguration<Employee>
     {
-        public void Configure(EntityTypeBuilder<Employee> builder)
+        public new void Configure(EntityTypeBuilder<Employee> builder)
         {
             builder.Property(e => e.Name).HasColumnType("nvarchar(50)");
             builder.Property(e => e.Address).HasColumnType("nvarchar(100)");
