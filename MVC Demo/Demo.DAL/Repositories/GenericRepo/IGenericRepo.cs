@@ -1,9 +1,5 @@
 ﻿using Demo.DataAccess.Models.CommonModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace Demo.DataAccess.Repositories.GenericRepo
 {
@@ -14,5 +10,9 @@ namespace Demo.DataAccess.Repositories.GenericRepo
         Entity? GetById(int id);
         int Update(Entity entity);
         int Remove(Entity entity);
+        //IEnumerable<Entity> GetIEnumerable();
+        //IQueryable<Entity> GetIQueryable();
+        IEnumerable<TResult>GetAll<TResult>(Expression<Func<Entity,TResult>>selector);
+
     }
 }

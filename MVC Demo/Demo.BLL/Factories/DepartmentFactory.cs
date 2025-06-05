@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Demo.BusinessLogic.DataTransferObjects.Department;
+﻿using Demo.BusinessLogic.DataTransferObjects.Department;
 using Demo.DataAccess.Models.DepartmentModel;
 
 namespace Demo.BusinessLogic.Factories
@@ -36,7 +31,7 @@ namespace Demo.BusinessLogic.Factories
                 Name = dept.Name,
                 Code = dept.Code,
                 Description = dept.Description,
-                DateOfCreation =DateOnly.FromDateTime( dept.CreatedOn)
+                DateOfCreation = DateOnly.FromDateTime(dept.CreatedOn)
             };
         }
         #endregion
@@ -57,7 +52,7 @@ namespace Demo.BusinessLogic.Factories
         #endregion
 
         #region ToDepartment(Update)
-       public static Department ToEntity(this UpdatedDepartmentDTO updeptdto)
+        public static Department ToEntity(this UpdatedDepartmentDTO updeptdto)
         {
             return new Department()
             {
@@ -71,5 +66,5 @@ namespace Demo.BusinessLogic.Factories
         }
         #endregion
 
-}
+    }
 }

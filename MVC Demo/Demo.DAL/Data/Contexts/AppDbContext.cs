@@ -1,5 +1,4 @@
-﻿using Demo.DataAccess.Data.Configrations;
-using Demo.DataAccess.Models.DepartmentModel;
+﻿using Demo.DataAccess.Models.DepartmentModel;
 using Demo.DataAccess.Models.EmployeeModel;
 using System.Reflection;
 
