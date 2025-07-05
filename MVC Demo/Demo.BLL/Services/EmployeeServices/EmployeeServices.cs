@@ -2,17 +2,28 @@
 using Demo.DataAccess.Models.EmployeeModel;
 using Demo.DataAccess.Repositories.EmployeeRepo;
 using AutoMapper;
+using Demo.DataAccess.Repositories.UnitOfWorkRepo;
 namespace Demo.BusinessLogic.Services.EmployeeServices
 {
-    public class EmployeeServices(IEmployeeRepo _employeeRepo, IMapper _mapper) : IEmployeeServices
+    public class EmployeeServices(IUnitOfWork _unitOfWork, IMapper _mapper) : IEmployeeServices
     {
 
-        public IEnumerable<EmployeesDTO> GetAllEmployees(bool Tracking)
+        public IEnumerable<EmployeesDTO> GetAllEmployees(string? SearchName)
         {
-            var emps = _employeeRepo.GetAll();//return IEnumerable<Employee>
-            ////but i wanna return IEnumerable<employeedto> so i need make mapping=>work on mannual mapping
-            ////convert from employee to employeedto
-            var empsdto = emps.Select(emp => new EmployeesDTO()
+            IEnumerable<Employee> employees;
+            if (string.IsNullOrWhiteSpace(SearchName))
+                employees = _unitOfWork.employeeRepo.GetAll();//return IEnumerable<Employee>
+            else
+            {
+                employees = _unitOfWork.employeeRepo.GetAll(e => e.Name.ToLower().Contains(SearchName.ToLower()));
+                if(!employees.Any())
+                {
+                   
+                }
+            }
+            //but i wanna return IEnumerable<employeedto> so i need make mapping=>work on mannual mapping
+            //convert from employee to employeedto
+            var empsdto = employees.Select(emp => new EmployeesDTO()
             {
                 Id = emp.Id,
                 Name = emp.Name,
@@ -21,17 +32,18 @@ namespace Demo.BusinessLogic.Services.EmployeeServices
                 Salary = emp.Salary,
                 IsActive = emp.IsActive,
                 Gender = emp.Gender.ToString(),
-                EmployeeType = emp.EmployeeType.ToString()
-
+                EmployeeType = emp.EmployeeType.ToString(),
+                Department = emp.Department!=null? emp.Department.Name:null,
 
             });
             return empsdto;
-            ////using AutoMapper
+            //using AutoMapper
             //var empsDto = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeesDTO>>(emps);
 
+           
             #region Get all IEnumerable
             //var result = _employeeRepo.GetIEnumerable()
-            //              .Where(e => e.IsDeleted != true) // where of ienumerable, get all employees and make filteration here
+            //              .Where(e => e.IsDeleted != true) // where of ienumerable, get all employees and make filteration here not in db
             //              .Select(e => new EmployeesDTO()
             //              {
             //                  Id = e.Id,
@@ -40,7 +52,7 @@ namespace Demo.BusinessLogic.Services.EmployeeServices
 
             //              });
             //return result.ToList(); // to can show query ,tolist()=> immediate execution operator
-            //GetIEnumerable => slect all attributes of employee and make filteration in app show only data i select it, all data load in memory
+            //GetIEnumerable => select all attributes of employee and make filteration in app show only data i select it, all data load in memory
             #endregion
 
             #region GetAllIQueryable
@@ -72,30 +84,34 @@ namespace Demo.BusinessLogic.Services.EmployeeServices
 
         public EmployeeDetailsDTO? GetEmployeeById(int id)
         {
-            var emp = _employeeRepo.GetById(id);//return nullable employee
+            var emp = _unitOfWork.employeeRepo.GetById(id);//return nullable employee
             return emp is null ? null : _mapper.Map<Employee, EmployeeDetailsDTO>(emp);
         }
 
         public int CreatedEmployee(CreatedEmployeeDTO createdEmployeeDTO)
         {
             var emp = _mapper.Map<CreatedEmployeeDTO, Employee>(createdEmployeeDTO);
-            return _employeeRepo.Add(emp);
+            _unitOfWork.employeeRepo.Add(emp);
+            return _unitOfWork.SaveChanges();
         }
 
         public int UpdatedEmployee(UpdatedEmployeeDTO updatedEmployeeDTO)
         {
             var emp = _mapper.Map<UpdatedEmployeeDTO, Employee>(updatedEmployeeDTO);
-            return _employeeRepo.Update(emp);
+            _unitOfWork.employeeRepo.Update(emp);
+            return _unitOfWork.SaveChanges();
+
         }
 
         public bool DeletedEmployee(int id)
         {
-            var emp = _employeeRepo.GetById(id);//get id which deleted
+            var emp = _unitOfWork.employeeRepo.GetById(id);//get id which deleted
             if (emp is null) return false;
             else
             {
                 emp.IsDeleted = true;
-                return _employeeRepo.Update(emp) > 0 ? true : false;
+                _unitOfWork.employeeRepo.Update(emp) ;
+                return _unitOfWork.SaveChanges() > 0 ? true : false;
             }
         }
 

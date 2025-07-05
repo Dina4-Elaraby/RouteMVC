@@ -33,5 +33,7 @@ namespace Demo.BusinessLogic.DataTransferObjects.Employee
         public int LastModifiedBy { get; set; } // user id 
         public DateOnly LastModifiedOn { get; set; } // when last update occur in record(automatically calculated)
       
+        public int? DepartmentId { get; set; }
+        public string? Department { get; set; }
     }
 }

@@ -6,6 +6,8 @@ using Demo.DataAccess.Repositories.EmployeeRepo;
 using Demo.BusinessLogic.Profiles;
 using Demo.BusinessLogic.Services.EmployeeServices;
 using Microsoft.AspNetCore.Mvc;
+using Demo.Presentation.ServiceLifeTime;
+using Demo.DataAccess.Repositories.UnitOfWorkRepo;
 namespace Demo.Presentation
 {
     public class Program
@@ -17,7 +19,7 @@ namespace Demo.Presentation
             #region  Add services to the container.(IservicesCollection)
             builder.Services.AddControllersWithViews(options =>
             {
-                //options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
 
             });
             //builder.Services.AddScoped<AppDbContext>();//2. add services to container
@@ -30,13 +32,26 @@ namespace Demo.Presentation
                 //options.UseSqlServer(builder.Configuration.GetSection("ConnectionStrings")["DefaultConntection"]);
              //3.
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConntection"));
+                options.UseLazyLoadingProxies();
             });
-            builder.Services.AddScoped<IDepartmentRepo, DepartmentRepo>();
-            builder.Services.AddScoped<IEmployeeRepo, EmployeeRepo>();
+
+            //builder.Services.AddScoped<IDepartmentRepo, DepartmentRepoo>();
+            //builder.Services.AddScoped<IEmployeeRepo, EmployeeRepoo>();
+
             // if someone demand IDepartmentServices inject or give him object of DepartmentServices
             builder.Services.AddScoped<IDepartmentServices, DepartmentServices>();
             builder.Services.AddScoped<IEmployeeServices, EmployeeServices>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddAutoMapper(m => m.AddProfile(new EmployeeProfile()));
+
+            //new instance of service is created once per request
+            builder.Services.AddScoped<IScoped, Scoped>();
+
+            //create /new instance of service only once per program
+            builder.Services.AddSingleton<ISingleton, Singleton>();
+
+            //add new instance of service each time is requested
+            builder.Services.AddTransient<ITransient, Transient>();
             #endregion
             var app = builder.Build();
 

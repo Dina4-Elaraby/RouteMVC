@@ -1,7 +1,12 @@
-﻿@using Demo.Presentation.ViewModels.Employee
+﻿@using Demo.BusinessLogic.Services.Department
+@using Demo.Presentation.ViewModels.Employee
 @using Demo.DataAccess.Models.EmployeeModel;
 @using Demo.DataAccess.Models.CommonModel;
 @model EmployeeViewModel
+@inject IDepartmentServices deptService
+@{
+    var depts = new SelectList(deptService.GetAllDepts(), "DeptId", nameof(DepartmentsDTO.Name));
+}
 
 <div class="form-group mb-3 col-6">
     <label class="label-form" asp-for="Name">  </label>
@@ -72,5 +77,13 @@
         }
     </div>
     <span asp-validation-for="Gender" class="text-danger"></span>
+</div>
+
+<div class="form-group mb-3 col-6">
+<label asp-for="DepartmentId" class="form-label"></label>
+    <select class="form-control" asp-for="DepartmentId" asp-items="depts">
+    <option value="@null">Choose Department</option>
+    </select>
+    <span asp-validation-for="DepartmentId" class="text-danger"></span>
 </div>
 
