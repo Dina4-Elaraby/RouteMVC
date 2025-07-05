@@ -1,4 +1,5 @@
 ﻿using Demo.DataAccess.Models.CommonModel;
+using Demo.DataAccess.Models.DepartmentModel;
 
 namespace Demo.DataAccess.Models.EmployeeModel
 {
@@ -14,5 +15,7 @@ namespace Demo.DataAccess.Models.EmployeeModel
         public DateTime HiringDate { get; set; }
         public Gender Gender { get; set; }
         public EmployeeType EmployeeType { get; set; }
+        public int? DepartmentId { get; set; } //fk
+        public virtual Department? Department { get; set; } //navigation property
     }
 }

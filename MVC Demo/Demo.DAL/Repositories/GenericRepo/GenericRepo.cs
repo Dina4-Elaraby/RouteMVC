@@ -22,26 +22,23 @@ namespace Demo.DataAccess.Repositories.GenericRepo
         #endregion
 
         #region Update
-        public int Update(Entity entity)
+        public void Update(Entity entity)
         {
             _dbContext.Set<Entity>().Update(entity);//update locally
-            return _dbContext.SaveChanges();// return n_rows affected in DB
         }
         #endregion
 
         #region Delete
-        public int Remove(Entity entity)
+        public void Remove(Entity entity)
         {
             _dbContext.Set<Entity>().Remove(entity);
-            return _dbContext.SaveChanges();
         }
         #endregion
 
         #region Insert
-        public int Add(Entity entity)
+        public void Add(Entity entity)
         {
-            _dbContext.Set<Entity>().Add(entity);
-            return _dbContext.SaveChanges();
+            _dbContext.Set<Entity>().Add(entity); // add locally
         }
 
 
@@ -63,8 +60,15 @@ namespace Demo.DataAccess.Repositories.GenericRepo
             return _dbContext.Set<Entity>()
                  .Where(e => e.IsDeleted != true)
                  .Select(selector).ToList();
-            //return ienumerable not to allow to extend any thing 
+            //return ienumerable to avoid extend any thing 
 
+        }
+
+        public IEnumerable<Entity> GetAll(Expression<Func<Entity, bool>> predict)
+        {
+            return _dbContext.Set<Entity>()
+                    .Where(predict)
+                    .ToList();
         }
     }
 }

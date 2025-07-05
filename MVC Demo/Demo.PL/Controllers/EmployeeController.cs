@@ -10,9 +10,9 @@ namespace Demo.Presentation.Controllers
     public class EmployeeController(IEmployeeServices _employeeServices, IWebHostEnvironment _env, ILogger<EmployeeController> _logger) : Controller
     {
         //Return All Employees
-        public IActionResult Index()
+        public IActionResult Index(string? SearchName)
         {
-            var emp = _employeeServices.GetAllEmployees(false); // return IEnumerable<employeesdto>
+            var emp = _employeeServices.GetAllEmployees(SearchName); // return IEnumerable<employeesdto>
             return View(emp);
         }
 
@@ -35,10 +35,11 @@ namespace Demo.Presentation.Controllers
                         Address = employeeViewModel.Address,
                         Salary = employeeViewModel.Salary,
                         IsActive = employeeViewModel.IsActive,
-                        HiringDate = DateOnly.FromDateTime(employeeViewModel.HiringDate),
+                        HiringDate = employeeViewModel.HiringDate,
                         PhoneNumber = employeeViewModel.PhoneNumber,
                         Gender = employeeViewModel.Gender,
-                        EmployeeType = employeeViewModel.EmployeeType
+                        EmployeeType = employeeViewModel.EmployeeType,
+                        DepartmentId = employeeViewModel.DepartmentId
                     };
                     int result = _employeeServices.CreatedEmployee(emp);
                     if (result > 0)
@@ -79,9 +80,8 @@ namespace Demo.Presentation.Controllers
             var emp = _employeeServices.GetEmployeeById(id.Value);
             if (emp is null) return NotFound();
             //map from employeedetailsdto to updatedemployeedto
-            var employeeDTO = new UpdatedEmployeeDTO()
+            var employeeViewModel = new EmployeeViewModel()
             {
-                Id = emp.Id,
                 Name = emp.Name,
                 Age = emp.Age,
                 Email = emp.Email,
@@ -91,15 +91,18 @@ namespace Demo.Presentation.Controllers
                 Salary = emp.Salary,
                 HiringDate = emp.HiringDate,
                 Gender = Enum.Parse<Gender>(emp.Gender),
-                EmployeeType = Enum.Parse<EmployeeType>(emp.EmployeeType)
+                EmployeeType = Enum.Parse<EmployeeType>(emp.EmployeeType),
+                DepartmentId = emp.DepartmentId
+
+
             };
-            return View(employeeDTO);
+            return View(employeeViewModel);
         }
 
         [HttpPost]
         public IActionResult Edit(int? id,EmployeeViewModel employeeViewModel)
         {
-            if (!id.HasValue || id != employeeViewModel.Id) return BadRequest();
+            if (!id.HasValue) return BadRequest();
 
             if (!ModelState.IsValid) return View(employeeViewModel); // return view with same data u enter it 
             {
@@ -108,14 +111,14 @@ namespace Demo.Presentation.Controllers
                 {
                     var emp = new UpdatedEmployeeDTO()
                     {
-                        Id = employeeViewModel.Id,
+                        Id = id.Value,
                         Name = employeeViewModel.Name,
                         Age = employeeViewModel.Age,
                         Email = employeeViewModel.Email,
                         Address = employeeViewModel.Address,
                         Salary = employeeViewModel.Salary,
                         IsActive = employeeViewModel.IsActive,
-                        HiringDate = DateOnly.FromDateTime(employeeViewModel.HiringDate),
+                        HiringDate = employeeViewModel.HiringDate,
                         PhoneNumber = employeeViewModel.PhoneNumber,
                         Gender = employeeViewModel.Gender,
                         EmployeeType = employeeViewModel.EmployeeType

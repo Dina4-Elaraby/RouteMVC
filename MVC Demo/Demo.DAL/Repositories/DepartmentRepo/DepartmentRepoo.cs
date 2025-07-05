@@ -6,7 +6,7 @@ namespace Demo.DataAccess.Repositories.DepartmentRepo
 {
     //primary constructor
     //Repository => crud operations of department model(functions),No logic 
-    public class DepartmentRepo(AppDbContext dbContext) : GenericRepo<Department>(dbContext),IDepartmentRepo
+    public class DepartmentRepoo(AppDbContext dbContext) : GenericRepo<Department>(dbContext),IDepartmentRepo
     {
         
     }

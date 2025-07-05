@@ -10,8 +10,8 @@ namespace Demo.BusinessLogic.Profiles
         {
             CreateMap<Employee, EmployeesDTO>()
                  .ForMember(dest => dest.Gender, options => options.MapFrom(src => src.Gender))
-                .ForMember(dest => dest.EmployeeType, options => options.MapFrom(src => src.EmployeeType));
-
+                 .ForMember(dest => dest.EmployeeType, options => options.MapFrom(src => src.EmployeeType))
+                 .ForMember(dest => dest.Department, options => options.MapFrom(src => src.Department != null ? src.Department.Name : null));
 
             #region Map from Employee to EmployeeDetailsDTO
             CreateMap<Employee, EmployeeDetailsDTO>()
@@ -19,7 +19,8 @@ namespace Demo.BusinessLogic.Profiles
                     .ForMember(dest => dest.Gender, options => options.MapFrom(src => src.Gender))
                     .ForMember(dest => dest.EmployeeType, options => options.MapFrom(src => src.EmployeeType))
                     .ForMember(dest => dest.CreatedOn, options => options.MapFrom(src => DateOnly.FromDateTime(src.CreatedOn)))
-                    .ForMember(dest => dest.LastModifiedOn, options => options.MapFrom(src => DateOnly.FromDateTime(src.LastModifiedOn)));
+                    .ForMember(dest => dest.LastModifiedOn, options => options.MapFrom(src => DateOnly.FromDateTime(src.LastModifiedOn)))
+                    .ForMember(dest => dest.Department, options => options.MapFrom(src => src.Department != null ? src.Department.Name : null)); ;
 
             #endregion
 
