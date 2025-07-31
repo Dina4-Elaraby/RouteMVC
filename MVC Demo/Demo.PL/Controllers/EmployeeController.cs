@@ -39,7 +39,8 @@ namespace Demo.Presentation.Controllers
                         PhoneNumber = employeeViewModel.PhoneNumber,
                         Gender = employeeViewModel.Gender,
                         EmployeeType = employeeViewModel.EmployeeType,
-                        DepartmentId = employeeViewModel.DepartmentId
+                        DepartmentId = employeeViewModel.DepartmentId,
+                        Image = employeeViewModel.Image,
                     };
                     int result = _employeeServices.CreatedEmployee(emp);
                     if (result > 0)
@@ -121,7 +122,9 @@ namespace Demo.Presentation.Controllers
                         HiringDate = employeeViewModel.HiringDate,
                         PhoneNumber = employeeViewModel.PhoneNumber,
                         Gender = employeeViewModel.Gender,
-                        EmployeeType = employeeViewModel.EmployeeType
+                        EmployeeType = employeeViewModel.EmployeeType,
+                        DepartmentId = employeeViewModel.DepartmentId
+
                     };
                     var result = _employeeServices.UpdatedEmployee(emp);
                     if (result > 0)

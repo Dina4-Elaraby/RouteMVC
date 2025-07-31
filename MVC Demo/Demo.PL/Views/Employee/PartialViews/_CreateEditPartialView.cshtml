@@ -2,6 +2,7 @@
 @using Demo.Presentation.ViewModels.Employee
 @using Demo.DataAccess.Models.EmployeeModel;
 @using Demo.DataAccess.Models.CommonModel;
+
 @model EmployeeViewModel
 @inject IDepartmentServices deptService
 @{
@@ -12,6 +13,12 @@
     <label class="label-form" asp-for="Name">  </label>
     <input asp-for="Name" class="form-control" />
     <span asp-validation-for="Name" class="text-danger"></span>
+</div>
+
+<div class="form-group mb-3 col-6">
+    <label class="label-form" asp-for="Image">  </label>
+    <input asp-for="Image" class="form-control" />
+    <span asp-validation-for="Image" class="text-danger"></span>
 </div>
 
 <div class="form-group mb-3 col-6">

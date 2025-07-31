@@ -1,11 +1,12 @@
 ﻿using Demo.BusinessLogic.DataTransferObjects.Employee;
 using Demo.DataAccess.Models.EmployeeModel;
+using Demo.BusinessLogic.Services.Attachment_Services;
 using Demo.DataAccess.Repositories.EmployeeRepo;
 using AutoMapper;
 using Demo.DataAccess.Repositories.UnitOfWorkRepo;
 namespace Demo.BusinessLogic.Services.EmployeeServices
 {
-    public class EmployeeServices(IUnitOfWork _unitOfWork, IMapper _mapper) : IEmployeeServices
+    public class EmployeeService(IUnitOfWork _unitOfWork, IMapper _mapper,IAttachmentService _attachmentService) : IEmployeeServices
     {
 
         public IEnumerable<EmployeesDTO> GetAllEmployees(string? SearchName)
@@ -91,6 +92,11 @@ namespace Demo.BusinessLogic.Services.EmployeeServices
         public int CreatedEmployee(CreatedEmployeeDTO createdEmployeeDTO)
         {
             var emp = _mapper.Map<CreatedEmployeeDTO, Employee>(createdEmployeeDTO);
+            //check from if exist image or not 
+            if(createdEmployeeDTO.Image is not null)
+            {
+                emp.ImageName = _attachmentService.Upload(createdEmployeeDTO.Image,"images");// return string eithwise null or imageName
+            }
             _unitOfWork.employeeRepo.Add(emp);
             return _unitOfWork.SaveChanges();
         }

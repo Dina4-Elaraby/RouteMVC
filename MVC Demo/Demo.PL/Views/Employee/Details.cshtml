@@ -3,9 +3,23 @@
     ViewData["Title"] = "Details";
 }
 
-
-
 <h1 class="my-5 w-75">Employee Details</h1>
+
+@if(string.IsNullOrEmpty(Model.Image))
+{
+    <div>
+        <img class="img-fluid rounded-circle" src="~/Files/images/download (1).jpg" alt="Image"/>
+
+    </div>
+}
+else
+{
+    <div>
+        <img class="img-fluid rounded-circle" src="~/Files/images/@Model.Image" alt="Image"/>
+
+    </div>
+}
+
 
 
 <ul class="nav nav-tabs" id="employeeTabs" role="tablist">

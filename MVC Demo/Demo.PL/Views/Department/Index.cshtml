@@ -1,19 +1,19 @@
 ﻿@model IEnumerable<DepartmentsDTO>
 @{
     ViewData["Title"] = "Index";
-    var dep = ViewData["message"] as DepartmentsDTO;
+    // var dep = ViewData["message"] as DepartmentsDTO;
 }
 
-<div class="alert alert-success">
+@* <div class="alert alert-success">
 
-    @*  @ViewData["message"] 
+     @ViewData["message"] 
       <br/>
-      @ViewBag.message *@
+      @ViewBag.message
     @dep.Name 
     <br/>
-    @ViewBag.messagee.Name 
+    @ViewBag.messagee.Name  
 
-</div>
+ </div> *@
 
 @if (!string.IsNullOrWhiteSpace(TempData["Message"] as string))
 {

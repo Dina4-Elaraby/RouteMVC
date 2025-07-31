@@ -16,11 +16,11 @@ namespace Demo.Presentation.Controllers
         //develop against that interface 
         public IActionResult Index()
         {
-            //ViewData["message"] = "HI from viewdata";
+           // ViewData["message"] = "HI from viewdata";
             //ViewBag.message = "HI from viewbag";
 
-            ViewData["message"] = new DepartmentsDTO() { Name = "From ViewData" };
-            ViewBag.messagee = new DepartmentsDTO() { Name = "From ViewBag" };
+            //ViewData["message"] = new DepartmentsDTO() { Name = "From ViewData" };
+            //ViewBag.messagee = new DepartmentsDTO() { Name = "From ViewBag" };
             var dept = _departmentServices.GetAllDepts();
             return View(dept);
         }
