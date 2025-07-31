@@ -10,3 +10,11 @@ IQueryable:
    .use if i work on remote sequence as database,sql server, oracle
    .linq against EF,sql
    .not use iqueryable as i can add or extend on data i selected 
+
+
+                           Attachment Services
+    .upload and delete files
+  *** ways to save files in db
+   convert file to binary and from binary to file
+   delpoyment in server
+   cloud ad google drive

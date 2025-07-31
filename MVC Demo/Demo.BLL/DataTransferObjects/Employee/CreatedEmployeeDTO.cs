@@ -1,5 +1,6 @@
 ﻿using Demo.DataAccess.Models.CommonModel;
 using Demo.DataAccess.Models.EmployeeModel;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace Demo.BusinessLogic.DataTransferObjects.Employee
@@ -43,5 +44,6 @@ namespace Demo.BusinessLogic.DataTransferObjects.Employee
         public EmployeeType EmployeeType { get; set; } 
 
         public int? DepartmentId { get; set; }
+        public IFormFile? Image { get; set; }
     }
 }
