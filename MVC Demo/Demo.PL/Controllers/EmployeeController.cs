@@ -3,17 +3,16 @@ using Demo.BusinessLogic.Services.EmployeeServices;
 using Demo.DataAccess.Models.CommonModel;
 using Demo.DataAccess.Models.EmployeeModel;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using Demo.Presentation.ViewModels.Employee;
 
 namespace Demo.Presentation.Controllers
 {
     public class EmployeeController(IEmployeeServices _employeeServices, IWebHostEnvironment _env, ILogger<EmployeeController> _logger) : Controller
     {
         //Return All Employees
-        public IActionResult Index()
+        public IActionResult Index(string? SearchName)
         {
-            var emp = _employeeServices.GetAllEmployees(false); // return IEnumerable<employeesdto>
+            var emp = _employeeServices.GetAllEmployees(SearchName); // return IEnumerable<employeesdto>
             return View(emp);
         }
 
@@ -22,13 +21,28 @@ namespace Demo.Presentation.Controllers
         public IActionResult Create() => View();
 
         [HttpPost]
-        public IActionResult Create(CreatedEmployeeDTO createdEmployeeDTO)
+        public IActionResult Create(EmployeeViewModel employeeViewModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    int result = _employeeServices.CreatedEmployee(createdEmployeeDTO);
+                    var emp = new CreatedEmployeeDTO()
+                    {
+                        Name = employeeViewModel.Name,
+                        Age = employeeViewModel.Age,
+                        Email = employeeViewModel.Email,
+                        Address = employeeViewModel.Address,
+                        Salary = employeeViewModel.Salary,
+                        IsActive = employeeViewModel.IsActive,
+                        HiringDate = employeeViewModel.HiringDate,
+                        PhoneNumber = employeeViewModel.PhoneNumber,
+                        Gender = employeeViewModel.Gender,
+                        EmployeeType = employeeViewModel.EmployeeType,
+                        DepartmentId = employeeViewModel.DepartmentId,
+                        Image = employeeViewModel.Image,
+                    };
+                    int result = _employeeServices.CreatedEmployee(emp);
                     if (result > 0)
                         return RedirectToAction(nameof(Index));
                     else
@@ -43,7 +57,7 @@ namespace Demo.Presentation.Controllers
                         _logger.LogError(ex.Message);
                 }
             }
-            return View(createdEmployeeDTO);
+            return View(employeeViewModel);
         }
 
         #endregion
@@ -67,9 +81,8 @@ namespace Demo.Presentation.Controllers
             var emp = _employeeServices.GetEmployeeById(id.Value);
             if (emp is null) return NotFound();
             //map from employeedetailsdto to updatedemployeedto
-            var employeeDTO = new UpdatedEmployeeDTO()
+            var employeeViewModel = new EmployeeViewModel()
             {
-                Id = emp.Id,
                 Name = emp.Name,
                 Age = emp.Age,
                 Email = emp.Email,
@@ -79,28 +92,47 @@ namespace Demo.Presentation.Controllers
                 Salary = emp.Salary,
                 HiringDate = emp.HiringDate,
                 Gender = Enum.Parse<Gender>(emp.Gender),
-                EmployeeType = Enum.Parse<EmployeeType>(emp.EmployeeType)
+                EmployeeType = Enum.Parse<EmployeeType>(emp.EmployeeType),
+                DepartmentId = emp.DepartmentId
+
+
             };
-            return View(employeeDTO);
+            return View(employeeViewModel);
         }
 
         [HttpPost]
-        public IActionResult Edit(int? id, UpdatedEmployeeDTO updatedEmployeeDTO)
+        public IActionResult Edit(int? id,EmployeeViewModel employeeViewModel)
         {
-            if (!id.HasValue || id != updatedEmployeeDTO.Id) return BadRequest();
+            if (!id.HasValue) return BadRequest();
 
-            if (!ModelState.IsValid) return View(updatedEmployeeDTO); // return view with same data u enter it 
+            if (!ModelState.IsValid) return View(employeeViewModel); // return view with same data u enter it 
             {
                 // try to make update
                 try
                 {
-                    var result = _employeeServices.UpdatedEmployee(updatedEmployeeDTO);
+                    var emp = new UpdatedEmployeeDTO()
+                    {
+                        Id = id.Value,
+                        Name = employeeViewModel.Name,
+                        Age = employeeViewModel.Age,
+                        Email = employeeViewModel.Email,
+                        Address = employeeViewModel.Address,
+                        Salary = employeeViewModel.Salary,
+                        IsActive = employeeViewModel.IsActive,
+                        HiringDate = employeeViewModel.HiringDate,
+                        PhoneNumber = employeeViewModel.PhoneNumber,
+                        Gender = employeeViewModel.Gender,
+                        EmployeeType = employeeViewModel.EmployeeType,
+                        DepartmentId = employeeViewModel.DepartmentId
+
+                    };
+                    var result = _employeeServices.UpdatedEmployee(emp);
                     if (result > 0)
                         return RedirectToAction(nameof(Index));
                     else
                     {  //show message error if employee not updated
                         ModelState.AddModelError(string.Empty, "Employee date is not updated");
-                        return View(updatedEmployeeDTO);
+                        return View(employeeViewModel);
                     }
                 }
                 catch (Exception ex)
@@ -108,7 +140,7 @@ namespace Demo.Presentation.Controllers
                     if (_env.IsDevelopment())
                     {
                         ModelState.AddModelError(string.Empty, ex.Message);
-                        return View(updatedEmployeeDTO);
+                        return View(employeeViewModel);
                     }
                     else
                     {

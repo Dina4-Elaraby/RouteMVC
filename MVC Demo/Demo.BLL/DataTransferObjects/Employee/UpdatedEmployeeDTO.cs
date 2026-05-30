@@ -1,11 +1,6 @@
 ﻿using Demo.DataAccess.Models.CommonModel;
 using Demo.DataAccess.Models.EmployeeModel;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Demo.BusinessLogic.DataTransferObjects.Employee
 {
@@ -43,6 +38,7 @@ namespace Demo.BusinessLogic.DataTransferObjects.Employee
         public Gender Gender { get; set; } 
 
         [Display(Name = "Emplyee Type")]
-        public EmployeeType EmployeeType { get; set; } 
+        public EmployeeType EmployeeType { get; set; }
+        public int? DepartmentId { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace Demo.Presentation.ViewModels.Department
 {
     //Make that class to make it the model is binding in edit view and is the same view used in edit action which send to edit view
-    public class DepartementEditViewModel
+    public class DepartementViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty!;

@@ -1,11 +1,6 @@
 ﻿using Demo.DataAccess.Data.Contexts;
 using Demo.DataAccess.Models.CommonModel;
-using Demo.DataAccess.Models.DepartmentModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace Demo.DataAccess.Repositories.GenericRepo
 {
@@ -27,27 +22,53 @@ namespace Demo.DataAccess.Repositories.GenericRepo
         #endregion
 
         #region Update
-        public int Update(Entity entity)
+        public void Update(Entity entity)
         {
             _dbContext.Set<Entity>().Update(entity);//update locally
-            return _dbContext.SaveChanges();// return n_rows affected in DB
         }
         #endregion
 
         #region Delete
-        public int Remove(Entity entity)
+        public void Remove(Entity entity)
         {
             _dbContext.Set<Entity>().Remove(entity);
-            return _dbContext.SaveChanges();
         }
         #endregion
 
         #region Insert
-        public int Add(Entity entity)
+        public void Add(Entity entity)
         {
-            _dbContext.Set<Entity>().Add(entity);
-            return _dbContext.SaveChanges();
+            _dbContext.Set<Entity>().Add(entity); // add locally
         }
+
+
         #endregion
+
+        public IEnumerable<Entity> GetIEnumerable()
+        {
+            return _dbContext.Set<Entity>();
+        }
+
+        public IQueryable<Entity> GetIQueryable()
+        {
+            //return set<entity> as IQueryable inherit from IEnumerable so no error occur
+            return _dbContext.Set<Entity>();
+        }
+
+        public IEnumerable<TResult> GetAll<TResult>(Expression<Func<Entity, TResult>> selector)
+        {
+            return _dbContext.Set<Entity>()
+                 .Where(e => e.IsDeleted != true)
+                 .Select(selector).ToList();
+            //return ienumerable to avoid extend any thing 
+
+        }
+
+        public IEnumerable<Entity> GetAll(Expression<Func<Entity, bool>> predict)
+        {
+            return _dbContext.Set<Entity>()
+                    .Where(predict)
+                    .ToList();
+        }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Demo.BusinessLogic.DataTransferObjects.Employee
 {
@@ -26,5 +21,7 @@ namespace Demo.BusinessLogic.DataTransferObjects.Employee
 
         [Display(Name="Emplyee Type")]
         public string EmployeeType { get; set; } = null!;
+
+        public string? Department { get; set; }
     }
 }

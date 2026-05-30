@@ -7,7 +7,7 @@ namespace Demo.BusinessLogic.Services.EmployeeServices
         //5 Signature methods
 
        //1.GetAll
-        IEnumerable<EmployeesDTO> GetAllEmployees(bool Tracking);
+        IEnumerable<EmployeesDTO> GetAllEmployees(string? SearchName);
 
         //2.GetById
         EmployeeDetailsDTO GetEmployeeById(int id);

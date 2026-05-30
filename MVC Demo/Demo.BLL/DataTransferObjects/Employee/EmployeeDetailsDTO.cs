@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Demo.BusinessLogic.DataTransferObjects.Employee
 {
@@ -38,5 +33,9 @@ namespace Demo.BusinessLogic.DataTransferObjects.Employee
         public int LastModifiedBy { get; set; } // user id 
         public DateOnly LastModifiedOn { get; set; } // when last update occur in record(automatically calculated)
       
+        public int? DepartmentId { get; set; }
+        public string? Department { get; set; }
+
+        public string? Image { get; set; }
     }
 }

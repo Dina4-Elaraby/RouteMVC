@@ -1,0 +1,20 @@
+﻿                         IEnumerable vs IQueryable 
+IEnumerable: 
+    .Get all data from database and make filteration in app
+    .use if i work on local sequence
+    .linq against array,list,collection
+    . not apply where after select 
+IQueryable:  
+   .Get all data from database and make filteration in db.
+   .Best performance rather than IEnumerable.
+   .use if i work on remote sequence as database,sql server, oracle
+   .linq against EF,sql
+   .not use iqueryable as i can add or extend on data i selected 
+
+
+                           Attachment Services
+    .upload and delete files
+  *** ways to save files in db
+   convert file to binary and from binary to file
+   delpoyment in server
+   cloud ad google drive

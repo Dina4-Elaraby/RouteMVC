@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Demo.BusinessLogic.DataTransferObjects.Department;
+﻿using Demo.BusinessLogic.DataTransferObjects.Department;
 using Demo.BusinessLogic.Factories;
-using Demo.DataAccess.Models;
 using Demo.DataAccess.Repositories.DepartmentRepo;
-
-
+using Demo.DataAccess.Repositories.UnitOfWorkRepo;
 
 namespace Demo.BusinessLogic.Services.Department
 {
-    public class DepartmentServices(IDepartmentRepo _departmentRepo) : IDepartmentServices
+    public class DepartmentServices(IUnitOfWork _unitOfWork) : IDepartmentServices
     // injection , primary const
     {
         #region  Four Ways To Apply Mapping
@@ -26,7 +19,7 @@ namespace Demo.BusinessLogic.Services.Department
         #region Get All Departments
         public IEnumerable<DepartmentsDTO> GetAllDepts()
         {
-            var depts = _departmentRepo.GetAll(); // return IEnumerable<department> exist in db
+            var depts = _unitOfWork.departmentRepo.GetAll(); // return IEnumerable<department> exist in db
 
             #region MyRegion Manual mapping(Casting) from department to departmentdto
             // var deptstoreturn = depts.Select(d => new DepartmentDTO()
@@ -50,7 +43,7 @@ namespace Demo.BusinessLogic.Services.Department
         #region Get Departments By Id
         public DepartmentDetailsDTO? GetDepartmentsById(int id)
         {
-            var depts = _departmentRepo.GetById(id); //return department,bur i wanna return departmentdetailsdto
+            var depts = _unitOfWork.departmentRepo.GetById(id); //return department,bur i wanna return departmentdetailsdto
 
             #region  One Way To Return Data From DepartmentsDetailsDTO(Manual Mapping
             //if (depts is null)
@@ -95,7 +88,8 @@ namespace Demo.BusinessLogic.Services.Department
         public int AddNewDepartment(CreatedDepartmentDTO deptdto)
         {
             var depts = deptdto.ToEntity(); //varible of Department object 
-            return _departmentRepo.Add(depts);
+            _unitOfWork.departmentRepo.Add(depts);
+            return _unitOfWork.SaveChanges();
         }
         #endregion
 
@@ -106,19 +100,20 @@ namespace Demo.BusinessLogic.Services.Department
             //return _departmentRepo.Update(dept);
 
             //or
-            return _departmentRepo.Update(updeptdto.ToEntity());
+            _unitOfWork.departmentRepo.Update(updeptdto.ToEntity());
+            return _unitOfWork.SaveChanges();
         }
         #endregion
 
         #region Delete Department
         public bool DeleteDepartment(int id)
         {
-            var dept = _departmentRepo.GetById(id); // get id i wanna delete
+            var dept = _unitOfWork.departmentRepo.GetById(id); // get id i wanna delete
             if (dept is null) return false;
             else
             {
-                int result = _departmentRepo.Remove(dept);//remove id 
-                return result > 0 ? true : false;
+                _unitOfWork.departmentRepo.Remove(dept);//remove id 
+                return _unitOfWork.SaveChanges() > 0 ? true : false;
             }
         }
         #endregion

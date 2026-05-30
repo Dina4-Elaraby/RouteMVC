@@ -1,11 +1,7 @@
 ﻿using Demo.DataAccess.Models.CommonModel;
 using Demo.DataAccess.Models.EmployeeModel;
-using System;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Demo.BusinessLogic.DataTransferObjects.Employee
 {
@@ -37,12 +33,17 @@ namespace Demo.BusinessLogic.DataTransferObjects.Employee
         [Display(Name = "Phone Number")]
         public string? PhoneNumber { get; set; }
 
+
         [Display(Name="Hiring Date")]
         public DateOnly HiringDate { get; set; }
 
         public Gender Gender { get; set; } 
 
+
         [Display(Name = "Emplyee Type")]
         public EmployeeType EmployeeType { get; set; } 
+
+        public int? DepartmentId { get; set; }
+        public IFormFile? Image { get; set; }
     }
 }

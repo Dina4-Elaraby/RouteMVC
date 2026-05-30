@@ -1,10 +1,4 @@
-﻿using Demo.DataAccess.Models.EmployeeModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Demo.DataAccess.Models.CommonModel;
+﻿using Demo.DataAccess.Models.CommonModel;
 
 namespace Demo.DataAccess.Data.Configrations.BaseEntityConfigs
 {

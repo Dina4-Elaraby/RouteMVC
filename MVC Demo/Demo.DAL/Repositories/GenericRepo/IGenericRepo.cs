@@ -1,18 +1,20 @@
 ﻿using Demo.DataAccess.Models.CommonModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace Demo.DataAccess.Repositories.GenericRepo
 {
     public interface IGenericRepo<Entity> where Entity:BaseEntity  
     {
-        int Add(Entity entity);
+        void Add(Entity entity);
         IEnumerable<Entity> GetAll(bool WithTracking = false);
         Entity? GetById(int id);
-        int Update(Entity entity);
-        int Remove(Entity entity);
+        void Update(Entity entity);
+        void Remove(Entity entity);
+        //IEnumerable<Entity> GetIEnumerable();
+        //IQueryable<Entity> GetIQueryable();
+        IEnumerable<TResult>GetAll<TResult>(Expression<Func<Entity,TResult>>selector);
+        //expression is represented condition of where anything serach by it not only search name return bool
+        IEnumerable<Entity> GetAll(Expression<Func<Entity, bool>> predict);
+
     }
 }
