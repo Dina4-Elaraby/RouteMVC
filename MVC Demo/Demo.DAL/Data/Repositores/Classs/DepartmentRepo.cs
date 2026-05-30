@@ -1,12 +1,13 @@
-﻿using Demo.DAL.Data.Repositores.Interfaces;
-using Demo.DAL.Models;
+using Demo.DataAccess.Data.Contexts;
+using Demo.DataAccess.Data.Repositores.Interfaces;
+using Demo.DataAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Demo.DAL.Data.Repositores.Classs
+namespace Demo.DataAccess.Data.Repositores.Classs
 {
     internal class DepartmentRepo : IDepartmentRepo
     {
