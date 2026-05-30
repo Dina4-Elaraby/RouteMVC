@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,9 +9,13 @@ namespace Demo.BusinessLogic.DataTransferObjects
 {
     public class CreatedDepartmentDTO
     {
-        public string Name { get; set; } = null!;
-        public string Code { get; set; } = null!;
-        public string? Description { get; set; }
+        [Required(ErrorMessage = "Name is required,please fill it")]
+        public string Name { get; set; }
+        [Required]
+        [Range(2000,4000)]
+        public string Code { get; set; }
+        [Required]
+        public string Description { get; set;}
         public DateOnly DateOfCreation { get; set; }
     }
 }

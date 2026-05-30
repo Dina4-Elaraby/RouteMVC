@@ -18,6 +18,8 @@ namespace Demo.BusinessLogic.Factories
             {
                 Id = dept.Id,
                 Name = dept.Name,
+                Code = dept.Code,
+                Description = dept.Description,
                 CreatedOn = DateOnly.FromDateTime(dept.CreatedOn),
                 LastModifiedOn = DateOnly.FromDateTime(dept.LastModifiedOn)
                 //all attributes
@@ -32,6 +34,9 @@ namespace Demo.BusinessLogic.Factories
             {
                 DeptId = dept.Id,
                 Name = dept.Name,
+                Code = dept.Code,
+                Description = dept.Description,
+                DateOfCreation =DateOnly.FromDateTime( dept.CreatedOn)
             };
         }
         #endregion
