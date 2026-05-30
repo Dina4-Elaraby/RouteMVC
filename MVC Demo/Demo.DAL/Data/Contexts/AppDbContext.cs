@@ -1,4 +1,6 @@
 ﻿using Demo.DataAccess.Data.Configrations;
+using Demo.DataAccess.Models.DepartmentModel;
+using Demo.DataAccess.Models.EmployeeModel;
 using System.Reflection;
 
 namespace Demo.DataAccess.Data.Contexts
@@ -15,11 +17,12 @@ namespace Demo.DataAccess.Data.Contexts
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             #region Two ways to apply configrations
-            modelBuilder.ApplyConfiguration<Department>(new DepartmentConfigration());
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+            //modelBuilder.ApplyConfiguration<Department>(new DepartmentConfigration());
+            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
             #endregion
 
         }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
     }
 }

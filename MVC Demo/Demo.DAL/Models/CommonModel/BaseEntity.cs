@@ -1,10 +1,10 @@
-﻿namespace Demo.DataAccess.Models
+﻿namespace Demo.DataAccess.Models.CommonModel
 {
     public class BaseEntity
     {
         //common attributes for each entity
         public int Id { get; set; } //pk
-        public int CreatedBy  { get; set; } // user id 
+        public int CreatedBy { get; set; } // user id 
         public DateTime CreatedOn { get; set; } //when insert reccord 
         public int LastModifiedBy { get; set; } // user id 
         public DateTime LastModifiedOn { get; set; } // when last update occur in record(automatically calculated)

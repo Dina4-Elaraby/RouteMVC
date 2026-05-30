@@ -5,17 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Demo.BusinessLogic.DataTransferObjects
+namespace Demo.BusinessLogic.DataTransferObjects.Department
 {
     public class CreatedDepartmentDTO
     {
         [Required(ErrorMessage = "Name is required,please fill it")]
         public string Name { get; set; }
         [Required]
-        [Range(2000,4000)]
+        [Range(2000, 4000)]
         public string Code { get; set; }
         [Required]
-        public string Description { get; set;}
+        public string Description { get; set; }
         public DateOnly DateOfCreation { get; set; }
     }
 }
